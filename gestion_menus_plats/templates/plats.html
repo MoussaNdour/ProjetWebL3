@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Plats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Nos Plats</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for plat in plats %}
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    {% if plat.image %}
+                        <img src="{{ plat.image.url }}" alt="{{ plat.nom }}" class="h-48 w-full object-cover">
+                    {% else %}
+                        <div class="h-48 bg-gray-200 flex items-center justify-center text-gray-500">
+                            Pas d’image
+                        </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ plat.nom }}</h2>
+                        <p class="text-sm text-gray-600 mb-2">{{ plat.description }}</p>
+                        <p class="text-sm text-gray-500">Catégorie : {{ plat.categorie }}</p>
+                        <p class="text-lg font-bold text-blue-600 mt-2">{{ plat.prix }} €</p>
+
+                        {% if plat.est_epuise %}
+                            <p class="text-red-600 font-semibold mt-2">Épuisé</p>
+                        {% endif %}
+
+                        {% if plat.est_specialite %}
+                            <span class="inline-block mt-2 px-3 py-1 text-sm text-white bg-green-600 rounded-full">Spécialité</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

@@ -16,13 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentification/',include('authentification.urls')),
     # path('gestion_commandes/',include('gestion_commandes.urls')),
-    # path('gestion_menus_plats/',include('gestion_menus_plats.urls')),
+    path('gestion_menus_plats/',include('gestion_menus_plats.urls')),
     # path('gestion_personnel/',include('gestion_personnel.urls')),
     # path('reservation_en_ligne',include('reservation_en_ligne.urls')),
     # path('statistique_et_reporting',include('statistique_et_reporting.urls'))
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
