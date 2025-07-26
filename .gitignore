@@ -1,0 +1,32 @@
+# Environnements virtuels
+env/
+venv/
+ENV/
+*.env
+
+# Fichiers compilés Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Fichiers de base de données temporaires
+db.sqlite3
+
+# Dossiers des médias (upload)
+img/
+media/
+
+# Fichiers d'OS
+.DS_Store
+Thumbs.db
+
+# fichiers de log
+*.log
+
+# VSCode / PyCharm / autres IDE
+.vscode/
+.idea/
+
+# Migrations si tu veux les ignorer (attention !)
+*/migrations/
+images/
