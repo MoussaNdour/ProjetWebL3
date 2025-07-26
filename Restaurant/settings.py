@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'acceuil',
     'authentification',
     'gestion_commandes',
     'gestion_menus_plats',
@@ -139,3 +140,4 @@ DATE_INPUT_FORMATS = ['%Y-%m-%d']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
+LOGIN_URL = '/authentification/connexion/'

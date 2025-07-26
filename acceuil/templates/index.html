@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Accueil | Restaurant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- ✅ Barre de navigation -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-blue-600">🍽️ Mon Restaurant</div>
+      <ul class="flex space-x-6 text-gray-700 font-medium">
+        <li><a href="{% url 'accueil' %}" class="hover:text-blue-600">Accueil</a></li>
+        <li><a href="{% url 'plats' %}" class="hover:text-blue-600">Menu</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'reserver' %}" class="hover:text-blue-600">Réserver</a></li>
+          {% endif %}
+        <li><a href="#" class="hover:text-blue-600">Contact</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'dashboard' %}" class="text-green-600 hover:underline">Dashboard</a></li>
+          <li><a href="{% url 'deconnexion' %}" class="text-red-500 hover:underline">Déconnexion</a></li>
+        {% else %}
+          <li><a href="{% url 'connexion' %}" class="hover:text-blue-600">Connexion</a></li>
+          <li><a href="{% url 'inscription' %}" class="hover:text-blue-600">Inscription</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ✅ Section principale -->
+  <header class="text-center py-16 bg-cover bg-center" style="background-image: url('/static/img/restaurant.jpg');">
+    <h1 class="text-4xl font-extrabold text-white drop-shadow-md">Bienvenue dans notre restaurant</h1>
+    <p class="text-white text-lg mt-4">Réservez votre table en ligne, découvrez notre menu, et profitez !</p>
+    <a href="{% url 'plats' %}" class="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow">
+      Voir le menu
+    </a>
+  </header>
+
+</body>
+</html>

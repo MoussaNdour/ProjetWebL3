@@ -5,6 +5,7 @@ from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -59,7 +60,16 @@ def connexion(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('../../reservation_en_ligne/reserver')
+            if user.role == "admin":
+                return redirect('admin_dashboard')
+            elif user.role == "serveur":
+                return redirect('serveur_dashboard')
+            elif user.role == "cuisinier":
+                return redirect('cuisine_dashboard')
+            elif user.role == "client":
+                return redirect('reserver')
+            else:
+                return redirect('home')
     else:
         form = EmailAuthenticationForm()
     return render(request, 'connexion.html', {'form': form})
@@ -71,14 +81,24 @@ def inscription(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('Profil')
+        if user.role == "admin":
+            return redirect('admin_dashboard')
+        elif user.role == "serveur":
+            return redirect('serveur_dashboard')
+        elif user.role == "cuisinier":
+            return redirect('cuisine_dashboard')
+        elif user.role == "client":
+            return redirect('reserver')
+        else:
+            return redirect('home')
+
     else:
         form = CustomUserCreationForm()
 
     return render(request, 'inscription.html', {'form': form})
 
 def profil(request):
-    user = request.user  # L'utilisateur actuellement connecté
+    user = request.user
     nom = user.last_name
     prenom = user.first_name
     email = user.email
@@ -92,5 +112,5 @@ def profil(request):
         'role': role,
         'date_naissance': date_naissance
     })
-def connecte(request):
-    return redirect('../../reservation_en_ligne/reserver')
+
+

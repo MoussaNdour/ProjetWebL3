@@ -62,3 +62,25 @@ def confirmer_reservation(request, table_id):
     table.save()
 
     return render(request, 'reservation_confirmee.html', {'table': table})
+
+@login_required
+def gestion_reservations(request):
+    if request.user.role not in ['admin','cuisinier','serveur']:
+        return render(request,'erreur.html', {'message': "Vous n'etes pas autorise a acceder a cette page"})
+    else:
+        reservations=Reservation.objects.all()
+        return render(request,'gestion_reservations.html',{'reservations':reservations})
+
+
+
+@login_required
+def supprimer_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+
+    # Optionnel : on peut limiter la suppression aux admins ou aux clients propriétaires
+    if request.user.role != 'admin' and reservation.client != request.user:
+        return render(request, 'erreur.html',
+                      {'message': "Vous n’avez pas l’autorisation de supprimer cette réservation."})
+
+    reservation.delete()
+    return redirect('admin_dashboard')

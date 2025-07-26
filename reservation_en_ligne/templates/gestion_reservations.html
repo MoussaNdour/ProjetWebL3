@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration des Réservations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <header>
+    <nav class="bg-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold text-blue-600">🍽️ Mon Restaurant</div>
+        <ul class="flex space-x-6 text-gray-700 font-medium">
+          <li><a href="{% url 'accueil' %}" class="hover:text-blue-600">Accueil</a></li>
+          <li><a href="{% url 'plats' %}" class="hover:text-blue-600">Menu</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'reserver' %}" class="hover:text-blue-600">Réserver</a></li>
+            {% endif %}
+          <li><a href="#" class="hover:text-blue-600">Contact</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'dashboard' %}" class="text-green-600 hover:underline">Dashboard</a></li>
+            <li><a href="{% url 'deconnexion' %}" class="text-red-500 hover:underline">Déconnexion</a></li>
+          {% else %}
+            <li><a href="{% url 'connexion' %}" class="hover:text-blue-600">Connexion</a></li>
+            <li><a href="{% url 'inscription' %}" class="hover:text-blue-600">Inscription</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="max-w-6xl mx-auto mt-10">
+    <h1 class="text-3xl font-bold mb-6 text-center">Administration des Réservations</h1>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+      <table class="min-w-full table-auto">
+        <thead class="bg-blue-600 text-white">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold">Client</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold">Table</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold">Date</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold">Heure</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold">Places</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for reservation in reservations %}
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4">{{ forloop.counter }}</td>
+            <td class="px-6 py-4">{{ reservation.client.email }}</td>
+            <td class="px-6 py-4">Table {{ reservation.table.numero }}</td>
+            <td class="px-6 py-4">{{ reservation.date }}</td>
+            <td class="px-6 py-4">{{ reservation.heure }}</td>
+            <td class="px-6 py-4">{{ reservation.table.nombre_de_places }}</td>
+            <td class="px-6 py-4 space-x-2">
+              <a href="{% url 'supprimer_reservation' reservation.id %}" class="text-red-600 hover:underline">Supprimer</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="text-center py-6 text-gray-500">Aucune réservation trouvée.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
