@@ -25,7 +25,7 @@ class CustomUserCreationForm(UserCreationForm):
                     'type': 'date',
                     'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
                 },
-                format='%d/%m/%Y'
+                format='%Y-%m-%d'
             ),
         }
     def __init__(self, *args, **kwargs):
@@ -34,7 +34,7 @@ class CustomUserCreationForm(UserCreationForm):
             field.widget.attrs.update({
                 'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
             })
-        self.fields['date_de_naissance'].input_formats = ['%d/%m/%Y']
+        self.fields['date_de_naissance'].input_formats = ['%Y-%m-%d']
 
 
 
@@ -49,9 +49,6 @@ class EmailAuthenticationForm(AuthenticationForm):
         })
     )
 
-    def confirm_login_allowed(self, user):
-        # ici tu peux bloquer les utilisateurs inactifs, etc.
-        pass
 
 
 # Create your views here.
@@ -62,7 +59,7 @@ def connexion(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('../profil')  # ou une autre page
+            return redirect('../../reservation_en_ligne/reserver')
     else:
         form = EmailAuthenticationForm()
     return render(request, 'connexion.html', {'form': form})
@@ -74,7 +71,7 @@ def inscription(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            #return redirect('Profil')
+            return redirect('Profil')
     else:
         form = CustomUserCreationForm()
 
@@ -95,3 +92,5 @@ def profil(request):
         'role': role,
         'date_naissance': date_naissance
     })
+def connecte(request):
+    return redirect('../../reservation_en_ligne/reserver')

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réservation de tables</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-10">
+
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center mb-8">Réserver une table</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for table in tables %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-2">Table {{ table.numero }}</h2>
+                    <p class="text-gray-600 mb-2">Places : {{ table.nombre_de_places }}</p>
+                    <p class="text-green-600 font-medium mb-4">Disponible</p>
+
+                    <form action="{% url 'confirmer_reservation' table.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                            Réserver
+                        </button>
+                    </form>
+                </div>
+            {% empty %}
+                <p class="text-center col-span-full text-red-600 text-lg">Aucune table disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

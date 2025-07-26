@@ -25,7 +25,7 @@ urlpatterns = [
     # path('gestion_commandes/',include('gestion_commandes.urls')),
     path('gestion_menus_plats/',include('gestion_menus_plats.urls')),
     # path('gestion_personnel/',include('gestion_personnel.urls')),
-    # path('reservation_en_ligne',include('reservation_en_ligne.urls')),
+    path('reservation_en_ligne/',include('reservation_en_ligne.urls')),
     # path('statistique_et_reporting',include('statistique_et_reporting.urls'))
 ]
 if settings.DEBUG:
