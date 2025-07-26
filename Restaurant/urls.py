@@ -23,7 +23,7 @@ urlpatterns = [
     path('',include('acceuil.urls')),
     path('admin/', admin.site.urls),
     path('authentification/',include('authentification.urls')),
-    # path('gestion_commandes/',include('gestion_commandes.urls')),
+    path('gestion_commandes/',include('gestion_commandes.urls')),
     path('gestion_menus_plats/',include('gestion_menus_plats.urls')),
     # path('gestion_personnel/',include('gestion_personnel.urls')),
     path('reservation_en_ligne/',include('reservation_en_ligne.urls')),

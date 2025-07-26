@@ -1,17 +1,20 @@
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+from gestion_commandes.models import Commande
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = [
-            'username',
             'first_name',
             'last_name',
             'email',
@@ -113,4 +116,19 @@ def profil(request):
         'date_naissance': date_naissance
     })
 
+@login_required
+def serveur_dashboard(request):
+    if request.user.role != 'serveur':
+        return render(request, 'erreur.html', {'message': "Accès réservé aux serveurs."})
 
+    commandes = Commande.objects.exclude(statut='annulée')
+    return render(request, 'serveur_dashboard.html', {'commandes': commandes})
+
+
+@require_POST
+def changer_statut_commande(request, commande_id):
+    commande = get_object_or_404(Commande, id=commande_id)
+    if request.user.role == 'serveur':
+        commande.statut = 'servie'
+        commande.save()
+    return redirect('serveur_dashboard')

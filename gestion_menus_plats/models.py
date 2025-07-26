@@ -17,3 +17,6 @@ class Plat(models.Model):
     est_specialite = models.BooleanField(default=False)
     image=models.ImageField(upload_to='', blank=True, null=True)
 
+    def __str__(self):
+        return self.nom
+
